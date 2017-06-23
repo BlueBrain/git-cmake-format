@@ -27,7 +27,7 @@ else()
   )
   unset(GCF_GIT_ROOT)
 
-  add_custom_target(format
+  add_custom_target(clang-format
     ${PYTHON_EXECUTABLE} ${GCF_SCRIPT}
     --cmake ${GIT_EXECUTABLE}
     ${CLANG_FORMAT_EXECUTABLE} -style=${GCF_CLANGFORMAT_STYLE} -ignore=${GCF_IGNORE_LIST}

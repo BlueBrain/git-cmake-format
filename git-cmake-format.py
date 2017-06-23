@@ -115,7 +115,7 @@ if __name__ == "__main__":
             continue
         if requiresFormat(FileName):
             print("'" + FileName +
-                  "' must be formatted, run the cmake target 'format'")
+                  "' must be formatted, run the 'clang-format' cmake target, and stage the changes")
             ReturnCode = 1
 
     if 1 == ReturnCode:
