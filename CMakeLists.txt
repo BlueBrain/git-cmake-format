@@ -1,6 +1,10 @@
 project(git-clang-format-cmake)
 cmake_minimum_required(VERSION 2.8)
 
+option(CLANG_FORMAT_PRECOMMIT
+           "Ensure git staging area is formatted according to clang-format"
+           FALSE)
+
 find_package(Git REQUIRED)
 find_package(PythonInterp REQUIRED)
 
@@ -20,10 +24,12 @@ execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --show-toplevel
 if(NOT GCF_GIT_ROOT)
   message(WARNING "Not in a git repository")
 else()
-  configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/git-pre-commit-hook
-    ${GCF_GIT_ROOT}/.git/hooks/pre-commit
-    @ONLY)
+  if(CLANG_FORMAT_PRECOMMIT)
+    configure_file(
+      ${CMAKE_CURRENT_SOURCE_DIR}/git-pre-commit-hook
+      ${GCF_GIT_ROOT}/.git/hooks/pre-commit
+      @ONLY)
+  endif()
   unset(GCF_GIT_ROOT)
 
   add_custom_target(clang-format
