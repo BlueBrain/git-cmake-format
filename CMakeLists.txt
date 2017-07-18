@@ -9,6 +9,12 @@ set(GCF_CLANGFORMAT_STYLE "file" CACHE STRING
 set(GCF_IGNORE_LIST "" CACHE STRING
   "Semi colon separated list of directories to ignore")
 
+add_custom_target(clang-format
+  ${PYTHON_EXECUTABLE} ${GCF_SCRIPT}
+  --cmake ${GIT_EXECUTABLE}
+  ${CLANG_FORMAT_EXECUTABLE} -style=${GCF_CLANGFORMAT_STYLE} -ignore=${GCF_IGNORE_LIST}
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
 option(CLANG_FORMAT_PRECOMMIT
        "Ensure git staging area is formatted according to clang-format"
        FALSE)
@@ -31,12 +37,6 @@ if(CLANG_FORMAT_PRECOMMIT)
       ${GCF_GIT_ROOT}/.git/hooks/pre-commit
       @ONLY)
     unset(GCF_GIT_ROOT)
-
-    add_custom_target(clang-format
-      ${PYTHON_EXECUTABLE} ${GCF_SCRIPT}
-      --cmake ${GIT_EXECUTABLE}
-      ${CLANG_FORMAT_EXECUTABLE} -style=${GCF_CLANGFORMAT_STYLE} -ignore=${GCF_IGNORE_LIST}
-  	  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
   endif(NOT GCF_GIT_ROOT)
   unset(GCF_SCRIPT)
 endif()
