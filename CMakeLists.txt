@@ -8,6 +8,7 @@ set(GCF_CLANGFORMAT_STYLE "file" CACHE STRING
   "Parameter pass to clang-format -style=<here>")
 set(GCF_IGNORE_LIST "" CACHE STRING
   "Semi colon separated list of directories to ignore")
+set(GCF_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/git-cmake-format.py)
 
 add_custom_target(clang-format
   ${PYTHON_EXECUTABLE} ${GCF_SCRIPT}
@@ -23,8 +24,6 @@ if(CLANG_FORMAT_PRECOMMIT)
   find_package(Git REQUIRED)
   find_package(PythonInterp REQUIRED)
 
-  set(GCF_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/git-cmake-format.py)
-
   execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --show-toplevel
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     OUTPUT_VARIABLE GCF_GIT_ROOT
@@ -38,5 +37,5 @@ if(CLANG_FORMAT_PRECOMMIT)
       @ONLY)
     unset(GCF_GIT_ROOT)
   endif(NOT GCF_GIT_ROOT)
-  unset(GCF_SCRIPT)
 endif()
+unset(GCF_SCRIPT)
