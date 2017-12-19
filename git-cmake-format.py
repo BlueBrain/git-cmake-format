@@ -50,7 +50,7 @@ def isFormattable(File):
 
 
 def formatFile(FileName, GitRoot):
-    subprocess.Popen([ClangFormat, Style, '-i', os.path.join(GitRoot,FileName)])
+    subprocess.Popen([ClangFormat, Style, '-i', os.path.join(GitRoot.decode('utf-8'), FileName.decode('utf-8'))])
     return
 
 
